@@ -189,16 +189,16 @@ Le projet utilise :
 ## Résultats des visualisations
 
 ### Analyse 1 - Top 10 des titres de postes les plus publiés par industrie
-![Résultat Analyse 1](analyse_1_titres.png)
+![Résultat Analyse 1](Top 10 des titres de postes les plus publiés par industrie.png)
 
 ### Analyse 2 - Top 10 des postes les mieux rémunérés par industrie
-![Résultat Analyse 2](analyse_2_salaires.png)
+![Résultat Analyse 2](Top 10 des postes les mieux rémunérés par industrie.png)
 
 ### Analyse 3 - Répartition des offres par taille d'entreprise
-![Résultat Analyse 3](analyse_3_taille.png)
+![Résultat Analyse 3](Répartition des offres par taille d'entreprise.png)
 
 ### Analyse 4 - Répartition des offres par secteur d'activité
-![Résultat Analyse 4](analyse_4_secteur.png)
+![Résultat Analyse 4](Répartition des offres par secteur d'activité.png)
 
 ### Analyse 5 - Répartition des offres par type d'emploi
-![Résultat Analyse 5](analyse_5_type_emploi.png)
+![Résultat Analyse 5](Analyse 5 - Répartition des offres par type d'emploi.png)
