@@ -1,231 +1,283 @@
-# 🔍 LinkedIn Job Analysis — with Snowflake & Streamlit
+## 📋 Table des Matières
 
-<div align="center">
-
-![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
-![AWS S3](https://img.shields.io/badge/AWS_S3-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
-![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
-
-*Analyse de plusieurs milliers d'offres d'emploi LinkedIn via une architecture Medallion sur Snowflake*
-
-</div>
-
----
-
-## 📌 Description
-
-Ce projet analyse plusieurs milliers d'offres d'emploi LinkedIn en utilisant **Snowflake** comme entrepôt de données et **Streamlit** pour les visualisations interactives.
-
-Il implémente une **architecture Medallion (Bronze / Silver / Gold)** pour garantir la qualité, la traçabilité et la fiabilité des données tout au long du pipeline.
+- [✨ Vue d'Ensemble](#-vue-densemble)
+- [🏗️ Architecture Medallion](#-architecture-medallion)
+- [📊 Analyses & Insights](#-analyses--insights)
+- [🗂️ Structure du Projet](#-structure-du-projet)
+- [🗄️ Modèle de Données](#-modèle-de-données)
+- [📦 Données Source](#-données-source)
+- [🚀 Démarrage Rapide](#-démarrage-rapide)
+- [⚙️ Automatisation](#-automatisation)
+- [🐛 Challenges & Solutions](#-challenges--solutions)
+- [👥 Équipe](#-équipe)
+- [📸 Visualisations](#-visualisations)
+- [📄 Licence](#-licence)
 
 ---
 
-## 🏗️ Architecture des Données
+## ✨ Vue d'Ensemble
 
+Bienvenue dans ce projet d'analyse de données d'emploi ! 🎯
+
+Ce projet transforme des milliers d'offres d'emploi LinkedIn brutes en insights actionnables grâce à une **architecture Medallion moderne** sur Snowflake. De l'ingestion brute à la visualisation interactive, découvrez comment analyser le marché du travail avec des technologies cloud.
+
+### 🎯 Objectifs
+- **📈 Analyser** les tendances du marché de l'emploi
+- **🔍 Identifier** les secteurs en croissance
+- **💰 Comparer** les rémunérations par poste et industrie
+- **📊 Visualiser** les données de manière interactive
+
+### 🛠️ Technologies Utilisées
+- **☁️ Snowflake** : Data Warehouse cloud
+- **🐍 Python** : Traitement et analyse
+- **🌊 Streamlit** : Interface utilisateur
+- **📦 AWS S3** : Stockage des données brutes
+
+---
+
+## 🏗️ Architecture Medallion
+
+Notre pipeline de données suit l'architecture **Medallion** pour une qualité et une traçabilité optimales :
+
+```mermaid
+graph TD
+    A[📁 Raw Files<br/>S3 Bucket] --> B[🟫 BRONZE<br/>Ingestion Brute]
+    B --> C[🩶 SILVER<br/>Nettoyage & Typage]
+    C --> D[🥇 GOLD<br/>Agrégations]
+    D --> E[📊 STREAMLIT<br/>Visualisations]
+
+    style A fill:#e1f5fe
+    style B fill:#fff3e0
+    style C fill:#f3e5f5
+    style D fill:#e8f5e8
+    style E fill:#fff8e1
 ```
-☁️  S3 (Fichiers bruts)
-         │
-         ▼
-   🟫  BRONZE      ──►  Ingestion brute (VARCHAR / VARIANT) — données telles quelles
-         │
-         ▼
-   🩶  SILVER      ──►  Nettoyage, typage, déduplication
-         │
-         ▼
-   🥇  GOLD        ──►  Agrégations prêtes pour l'analyse
-         │
-         ▼
-   📊  STREAMLIT   ──►  Visualisations interactives
-```
+
+| Couche | Description | Technologies |
+|--------|-------------|-------------|
+| **🟫 Bronze** | Données brutes ingérées telles quelles | `VARCHAR`, `VARIANT` |
+| **🩶 Silver** | Données nettoyées et typées | Tables structurées |
+| **🥇 Gold** | Agrégations prêtes pour l'analyse | Tables optimisées |
+| **📊 Streamlit** | Interface de visualisation | Application web interactive |
 
 ---
 
-## 📊 Analyses Réalisées
+## 📊 Analyses & Insights
 
-| # | Analyse | Description |
-|---|---------|-------------|
-| 1️⃣ | **Top 10 des titres de postes les plus publiés** | Identifie les métiers en tension par industrie |
-| 2️⃣ | **Top 10 des postes les mieux rémunérés** | Compare les salaires max moyens par poste et industrie |
-| 3️⃣ | **Répartition par taille d'entreprise** | De la TPE (0) à la grande entreprise (7) |
-| 4️⃣ | **Répartition par secteur d'activité** | Les 20 secteurs qui recrutent le plus sur LinkedIn |
-| 5️⃣ | **Répartition par type d'emploi** | CDI, CDD, stage, temps partiel, etc. |
+Découvrez les 5 analyses clés réalisées sur les données d'emploi :
+
+| # | 📈 Analyse | 🎯 Objectif | 💡 Insights |
+|---|-----------|------------|------------|
+| 1️⃣ | **Top 10 Postes Populaires** | Identifier les métiers en tension | Métiers tech et data en forte demande |
+| 2️⃣ | **Top Rémunérations** | Comparer les salaires par poste | Écart significatif selon l'industrie |
+| 3️⃣ | **Taille Entreprises** | Répartition par taille (TPE → GE) | Prédominance des PME |
+| 4️⃣ | **Secteurs d'Activité** | Top 20 secteurs recruteurs | Tech, Finance, Santé leaders |
+| 5️⃣ | **Types d'Emploi** | CDI, CDD, Stage, etc. | CDI majoritaire |
 
 ---
 
 ## 🗂️ Structure du Projet
 
 ```
-📁 linkedin-snowflake-analysis/
+📁 linkedin-job-analysis/
 │
-├── 📄 README.md
+├── 📄 README.md                    # 📖 Ce fichier
 │
-├── 📁 sql/
-│   ├── 01_setup.sql              ── Création BDD, schémas, stage, formats
-│   ├── 02_tables_bronze.sql      ── Création des tables Bronze
-│   ├── 03_load_bronze.sql        ── Chargement des données dans Bronze
-│   ├── 04_tables_silver.sql      ── Création des tables Silver
-│   ├── 05_load_silver.sql        ── Transformation Bronze → Silver
-│   ├── 06_quality_tests.sql      ── Tests de qualité des données
-│   ├── 07_tables_gold.sql        ── Création et alimentation des tables Gold
-│   ├── 08_analyses.sql           ── Requêtes SQL des 5 analyses
-│   └── 09_automation.sql         ── Snowpipe + tâches planifiées
+├── 📁 sql/                        # 🗄️ Scripts SQL
+│   ├── 01_setup.sql              # ⚙️ Configuration initiale
+│   ├── 02_tables_bronze.sql      # 🟫 Création Bronze
+│   ├── 03_load_bronze.sql        # 📥 Chargement données
+│   ├── 04_tables_silver.sql      # 🩶 Création Silver
+│   ├── 05_load_silver.sql        # 🔄 Transformation
+│   ├── 06_quality_tests.sql      # ✅ Tests qualité
+│   ├── 07_tables_gold.sql        # 🥇 Création Gold
+│   ├── 08_analyses.sql           # 📊 Requêtes analyses
+│   └── 09_automation.sql         # 🤖 Automatisation
 │
-└── 📁 streamlit/
-    └── streamlit_app.py          ── Code Streamlit des 5 visualisations
+├── 📁 streamlit/                  # 🌊 Application web
+│   └── streamlit_app.py          # 🎨 Code Streamlit
+│
+└── 📁 assets/                     # 🖼️ Images & ressources
+    ├── screenshots/              # 📸 Captures d'écran
+    └── diagrams/                 # 📊 Diagrammes
 ```
 
 ---
 
-## 🗄️ Modèle de Données (ERD)
+## 🗄️ Modèle de Données
 
-### Bronze / Silver
+### 🟫 Bronze / Silver Layer
 
-```
-┌─────────────────────┐        ┌──────────────────┐
-│    job_postings     │        │    companies     │
-├─────────────────────┤        ├──────────────────┤
-│ job_id (PK)         │        │ company_id (PK)  │
-│ company_name (FK) ──┼────────► name             │
-│ title               │        │ description      │
-│ description         │        │ company_size     │
-│ max_salary          │        │ state / country  │
-│ med_salary          │        │ city / zip_code  │
-│ min_salary          │        │ url              │
-│ pay_period          │        └────────┬─────────┘
-│ formatted_work_type │                 │
-│ location            │        ┌────────▼─────────┐
-│ remote_allowed      │        │company_industries│
-│ views / applies     │        ├──────────────────┤
-│ listed_time         │        │ company_id (FK)  │
-│ expiry              │        │ industry         │
-│ sponsored           │        └──────────────────┘
-└────────┬────────────┘
-         │
-    ┌────▼──────┐    ┌──────────────────┐    ┌──────────────────────┐
-    │  benefits │    │  job_industries  │    │  employee_counts     │
-    ├───────────┤    ├──────────────────┤    ├──────────────────────┤
-    │ job_id(FK)│    │ job_id (FK)      │    │ company_id (FK)      │
-    │ inferred  │    │ industry_id      │    │ employee_count       │
-    │ type      │    └──────────────────┘    │ follower_count       │
-    └───────────┘                            │ time_recorded        │
-    ┌───────────┐                            └──────────────────────┘
-    │ job_skills│
-    ├───────────┤
-    │ job_id(FK)│
-    │ skill_abr │
-    └───────────┘
+```mermaid
+erDiagram
+    JOB_POSTINGS ||--o{ BENEFITS : has
+    JOB_POSTINGS ||--o{ JOB_INDUSTRIES : belongs_to
+    JOB_POSTINGS ||--o{ JOB_SKILLS : requires
+    JOB_POSTINGS }o--|| COMPANIES : posted_by
+    COMPANIES ||--o{ COMPANY_INDUSTRIES : operates_in
+    COMPANIES ||--o{ EMPLOYEE_COUNTS : has
 ```
 
-### Gold
+| Table | Description | Clés |
+|-------|-------------|------|
+| **job_postings** | Offres d'emploi détaillées | `job_id` (PK) |
+| **companies** | Informations entreprises | `company_id` (PK) |
+| **benefits** | Avantages par offre | `job_id` (FK) |
+| **job_industries** | Secteurs par offre | `job_id` (FK) |
+| **job_skills** | Compétences requises | `job_id` (FK) |
+| **company_industries** | Secteurs entreprise | `company_id` (FK) |
+| **employee_counts** | Effectifs entreprise | `company_id` (FK) |
+
+### 🥇 Gold Layer
 
 ```
-┌──────────────────────────────────┐
-│  🥇 Tables Gold (agrégées)       │
-├──────────────────────────────────┤
-│  top_titres_par_industrie        │
-│  top_salaires_par_industrie      │
-│  repartition_taille_entreprise   │
-│  repartition_secteur             │
-│  repartition_type_emploi         │
-└──────────────────────────────────┘
+┌─────────────────────────────────────┐
+│         🥇 TABLES GOLD              │
+├─────────────────────────────────────┤
+│  top_titres_par_industrie          │
+│  top_salaires_par_industrie        │
+│  repartition_taille_entreprise     │
+│  repartition_secteur_activite      │
+│  repartition_type_emploi           │
+└─────────────────────────────────────┘
 ```
 
 ---
 
-## 📦 Jeu de Données
+## 📦 Données Source
 
-Les fichiers sources sont disponibles dans le bucket S3 : `s3://snowflake-lab-bucket/`
+Les données sont stockées dans un bucket S3 public pour faciliter la reproduction :
 
-| Fichier | Format | Description |
-|---------|--------|-------------|
-| `job_postings.csv` | CSV | Offres d'emploi détaillées |
-| `benefits.csv` | CSV | Avantages par offre |
-| `employee_counts.csv` | CSV | Nombre d'employés par entreprise |
-| `job_skills.csv` | CSV | Compétences requises par offre |
-| `companies.json` | JSON | Informations sur les entreprises |
-| `company_industries.json` | JSON | Secteurs d'activité par entreprise |
-| `company_specialities.json` | JSON | Spécialités par entreprise |
-| `job_industries.json` | JSON | Secteurs d'activité par offre |
+| 📁 Fichier | 📋 Format | 📊 Description | 📏 Taille |
+|------------|-----------|----------------|-----------|
+| `job_postings.csv` | CSV | Offres d'emploi complètes | ~50MB |
+| `benefits.csv` | CSV | Avantages sociaux | ~5MB |
+| `employee_counts.csv` | CSV | Effectifs entreprises | ~2MB |
+| `job_skills.csv` | CSV | Compétences requises | ~10MB |
+| `companies.json` | JSON | Données entreprises | ~15MB |
+| `company_industries.json` | JSON | Secteurs entreprise | ~3MB |
+| `company_specialities.json` | JSON | Spécialités | ~2MB |
+| `job_industries.json` | JSON | Secteurs par offre | ~8MB |
 
----
-
-## ✅ Prérequis
-
-- 🔐 Compte Snowflake *(essai gratuit 30 jours disponible)*
-- 🐍 Notions de base en **SQL** et **Python**
+**📍 Bucket S3 :** `s3://snowflake-lab-bucket/`
 
 ---
 
-## 🚀 Instructions pour Reproduire le Projet
+## 🚀 Démarrage Rapide
 
-```bash
-# Étape 1 — Créer un compte Snowflake
-# https://signup.snowflake.com/
+### 📋 Prérequis
+- ✅ [Compte Snowflake](https://signup.snowflake.com/) (30 jours gratuit)
+- ✅ Notions de base SQL et Python
+- ✅ Navigateur web moderne
 
-# Étape 2 — Exécuter les scripts SQL dans l'ordre
-01_setup.sql → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09
+### 🛠️ Installation en 4 Étapes
 
-# Étape 3 — Dans Snowflake, créer une Streamlit App
-# Sélectionner "Run on warehouse"
+1. **🔐 Créer un compte Snowflake**
+   ```bash
+   # Aller sur https://signup.snowflake.com/
+   # Créer un compte gratuit
+   ```
 
-# Étape 4 — Coller le contenu de streamlit_app.py et cliquer sur Run
-```
+2. **⚙️ Configurer l'environnement**
+   ```sql
+   -- Exécuter 01_setup.sql pour créer :
+   -- • Base de données
+   -- • Schémas Bronze/Silver/Gold
+   -- • Stage S3
+   -- • Formats de fichier
+   ```
+
+3. **📥 Charger les données**
+   ```bash
+   # Exécuter les scripts dans l'ordre :
+   02_tables_bronze.sql
+   03_load_bronze.sql
+   04_tables_silver.sql
+   05_load_silver.sql
+   06_quality_tests.sql
+   07_tables_gold.sql
+   08_analyses.sql
+   ```
+
+4. **🌊 Lancer Streamlit**
+   ```bash
+   # Dans Snowflake :
+   # • Créer une Streamlit App
+   # • Sélectionner "Run on warehouse"
+   # • Coller le code de streamlit_app.py
+   # • Cliquer sur "Run"
+   ```
+
+### 🎯 Résultat
+🎉 Votre application Streamlit est maintenant accessible avec 5 analyses interactives !
 
 ---
 
 ## ⚙️ Automatisation
 
-| Mécanisme | Détail |
-|-----------|--------|
-| **Snowpipe** | `AUTO_INGEST = TRUE` — chargement automatique des nouveaux fichiers S3 dans Bronze |
-| **Task Bronze → Silver** | Propagation automatique toutes les **60 minutes** |
-| **Task Silver → Gold** | Propagation automatique toutes les **70 minutes** |
+Le pipeline est entièrement automatisé pour une maintenance minimale :
+
+| 🔄 Mécanisme | ⚡ Fréquence | 📝 Description |
+|--------------|-------------|----------------|
+| **Snowpipe** | Temps réel | Chargement automatique S3 → Bronze |
+| **Task B→S** | Toutes les 60 min | Nettoyage Bronze → Silver |
+| **Task S→G** | Toutes les 70 min | Agrégations Silver → Gold |
+
+```sql
+-- Exemple de Snowpipe
+CREATE PIPE my_pipe
+AUTO_INGEST = TRUE
+AS COPY INTO bronze.job_postings
+FROM @my_stage;
+```
 
 ---
 
-## 🐛 Problèmes Rencontrés & Solutions
+## 🐛 Challenges & Solutions
 
-| Problème | Solution |
-|----------|----------|
-| Timestamps en Unix millisecondes | `TO_TIMESTAMP_NTZ(CAST(valeur/1000 AS BIGINT))` |
-| `company_name` contient des IDs flottants (ex: `7789.0`) | `SPLIT_PART(company_name, '.', 1)` |
-| Doublons dans `job_postings` | Déduplification avec `ROW_NUMBER() + QUALIFY` |
-| Fichiers JSON à structure imbriquée | Stockage en `VARIANT` dans Bronze, extraction dans Silver |
-
----
-
-## 👥 Répartition des Tâches
-
-| Membre | Périmètre |
-|--------|-----------|
-| **Membre 1** | Setup, Bronze, Silver, Tests qualité |
-| **Membre 2** | Gold, Streamlit, Automatisation, README |
+| 🚨 Problème | 💡 Solution Technique |
+|-------------|----------------------|
+| **Timestamps Unix** | `TO_TIMESTAMP_NTZ(CAST(ts/1000 AS BIGINT))` |
+| **IDs flottants** | `SPLIT_PART(company_name, '.', 1)` |
+| **Doublons** | `ROW_NUMBER() OVER(...) + QUALIFY` |
+| **JSON imbriqués** | Stockage `VARIANT` puis extraction |
 
 ---
 
-## 📸 Résultats des Visualisations
+## 👥 Équipe
 
-### Analyse 1 — Top 10 des titres de postes les plus publiés par industrie
-![Analyse 1](Analyse%201%20-%20Top%2010%20des%20titres%20de%20postes%20les%20plus%20publi%C3%A9s%20par%20industrie.png)
-
-### Analyse 2 — Top 10 des postes les mieux rémunérés par industrie
-![Analyse 2](Analyse%202%20-%20Top%2010%20des%20postes%20les%20mieux%20r%C3%A9mun%C3%A9r%C3%A9s%20par%20industrie.png)
-
-### Analyse 3 — Répartition des offres par taille d'entreprise
-![Analyse 3](Analyse%203%20-%20R%C3%A9partition%20des%20offres%20par%20taille%20d%27entreprise.png)
-
-### Analyse 4 — Répartition des offres par secteur d'activité
-![Analyse 4](Analyse%204%20-%20R%C3%A9partition%20des%20offres%20par%20secteur%20d%27activit%C3%A9.png)
-
-### Analyse 5 — Répartition des offres par type d'emploi
-![Analyse 5](Analyse%205%20-%20R%C3%A9partition%20des%20offres%20par%20type%20d%27emploi.png)
+| 👤 Rôle | 🤝 Responsabilités |
+|---------|-------------------|
+| **Data Engineer 1** | Setup, Bronze, Silver, Tests qualité |
+| **Data Engineer 2** | Gold, Streamlit, Automatisation, Documentation |
 
 ---
 
-<div align="center">
+## 📸 Visualisations
 
-*Projet réalisé dans le cadre d'un lab Data Engineering avec Snowflake*
+Découvrez les résultats de nos analyses à travers ces visualisations interactives :
 
-</div>
+### 1️⃣ Top 10 Postes les Plus Publiés par Industrie
+![Top Postes](Analyse%201%20-%20Top%2010%20des%20titres%20de%20postes%20les%20plus%20publi%C3%A9s%20par%20industrie.png)
+
+### 2️⃣ Top 10 Postes les Mieux Rémunérés par Industrie
+![Top Salaires](Analyse%202%20-%20Top%2010%20des%20postes%20les%20mieux%20r%C3%A9mun%C3%A9r%C3%A9s%20par%20industrie.png)
+
+### 3️⃣ Répartition par Taille d'Entreprise
+![Taille Entreprise](Analyse%203%20-%20R%C3%A9partition%20des%20offres%20par%20taille%20d%27entreprise.png)
+
+### 4️⃣ Répartition par Secteur d'Activité
+![Secteurs](Analyse%204%20-%20R%C3%A9partition%20des%20offres%20par%20secteur%20d%27activit%C3%A9.png)
+
+### 5️⃣ Répartition par Type d'Emploi
+![Types Emploi](Analyse%205%20-%20R%C3%A9partition%20des%20offres%20par%20type%20d%27emploi.png)
+
+---
+
+## 📄 Licence
+
+Ce projet est distribué sous licence **MIT**. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+
