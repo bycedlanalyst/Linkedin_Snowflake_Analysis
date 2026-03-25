@@ -266,7 +266,7 @@ FROM @my_stage;
 
 ## 👥 Équipe
 
-| 👤 Rôle | 🤝 Responsabilités |
+| 👤 Auteur | 🤝 Responsabilités |
 |---------|-------------------|
 | **David Atchori** | Setup, Bronze, Silver, Tests qualité |
 | **Cédric BOIMIN** | Gold, Streamlit, Automatisation, Documentation |
