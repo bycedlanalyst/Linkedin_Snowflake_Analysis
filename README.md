@@ -308,6 +308,4 @@ Ce projet est distribué sous licence **MIT**. Voir le fichier [LICENSE](LICENSE
 
 *Projet réalisé dans le cadre d'un laboratoire Data Engineering avec Snowflake*
 
-[🔗 LinkedIn](https://linkedin.com/in/your-profile) • [📧 Email](mailto:your.email@example.com) • [🌐 Portfolio](https://your-portfolio.com)
-
 </div>
